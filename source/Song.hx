@@ -14,7 +14,7 @@ class Event
 	public var value:Float;
 	public var type:String;
 
-	public function new(name:String,pos:Float,value:Float,type:String)
+	public function new(name:String, pos:Float, value:Float, type:String)
 	{
 		this.name = name;
 		this.position = pos;
@@ -43,7 +43,7 @@ typedef SwagSong =
 
 class Song
 {
-	public static var latestChart:String = "KE1";
+	public static var latestChart:String = 'KE1';
 	public var chartVersion:String;
 	public var song:String;
 	public var notes:Array<SwagSection>;
@@ -68,7 +68,7 @@ class Song
 
 	public static function loadFromJsonRAW(rawJson:String)
 	{
-		while (!rawJson.endsWith("}"))
+		while (!rawJson.endsWith('}'))
 		{
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
@@ -81,7 +81,7 @@ class Song
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
 		// pre lowercasing the folder name
-		var folderLowercase = StringTools.replace(folder, " ", "-").toLowerCase();
+		var folderLowercase = StringTools.replace(folder, ' ', '-').toLowerCase();
 		switch (folderLowercase) {
 			case 'dad-battle': folderLowercase = 'dadbattle';
 			case 'philly-nice': folderLowercase = 'philly';
@@ -91,7 +91,7 @@ class Song
 
 		var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
 
-		while (!rawJson.endsWith("}"))
+		while (!rawJson.endsWith('}'))
 		{
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
@@ -121,21 +121,21 @@ class Song
 		var ba = song.bpm;
 
 		var index = 0;
-		trace("conversion stuff " + song.song + " " + song.notes.length);
+		trace('conversion stuff ' + song.song + ' ' + song.notes.length);
 		var convertedStuff:Array<Song.Event> = [];
 
 
 		if (song.eventObjects == null)
-			song.eventObjects = [new Song.Event("Init BPM",0,song.bpm,"BPM Change")];
+			song.eventObjects = [new Song.Event('Init BPM', 0, song.bpm, 'BPM Change')];
 
 		for(i in song.eventObjects)
 		{
-			var name = Reflect.field(i,"name");
-			var type = Reflect.field(i,"type");
-			var pos = Reflect.field(i,"position");
-			var value = Reflect.field(i,"value");
+			var name = Reflect.field(i, 'name');
+			var type = Reflect.field(i, 'type');
+			var pos = Reflect.field(i, 'position');
+			var value = Reflect.field(i, 'value');
 
-			convertedStuff.push(new Song.Event(name,pos,value,type));
+			convertedStuff.push(new Song.Event(name, pos, value, type));
 		}
 
 		song.eventObjects = convertedStuff;
@@ -146,13 +146,13 @@ class Song
 		var currentIndex = 0;
 		for (i in song.eventObjects)
 		{
-			if (i.type == "BPM Change")
+			if (i.type == 'BPM Change')
 			{
 				var beat:Float = i.position;
 
 				var endBeat:Float = Math.POSITIVE_INFINITY;
 
-				TimingStruct.addTiming(beat,i.value,endBeat, 0); // offset in this case = start time since we don't have a offset
+				TimingStruct.addTiming(beat, i.value, endBeat, 0); // offset in this case = start time since we don't have a offset
 				
 				if (currentIndex != 0)
 				{
@@ -182,9 +182,9 @@ class Song
 
 			if (i.changeBPM && i.bpm != ba)
 			{
-				trace("converting changebpm for section " + index);
+				trace('converting changebpm for section ' + index);
 				ba = i.bpm;
-				song.eventObjects.push(new Song.Event("FNF BPM Change " + index,beat,i.bpm,"BPM Change"));
+				song.eventObjects.push(new Song.Event('FNF BPM Change ' + index, beat, i.bpm, 'BPM Change'));
 			}
 
 			for(ii in i.sectionNotes)

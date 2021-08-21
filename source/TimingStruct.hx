@@ -18,9 +18,9 @@ class TimingStruct
         AllTimings = [];
     }
 
-    public static function addTiming(startBeat,bpm,endBeat:Float, offset:Float)
+    public static function addTiming(startBeat, bpm, endBeat:Float, offset:Float)
     {
-        var pog = new TimingStruct(startBeat,bpm,endBeat, offset);
+        var pog = new TimingStruct(startBeat, bpm, endBeat, offset);
         AllTimings.push(pog);
     }
 
@@ -47,7 +47,7 @@ class TimingStruct
     }
 
 
-    public function new(startBeat:Float,bpm:Float,endBeat:Float, offset:Float)
+    public function new(startBeat:Float, bpm:Float, endBeat:Float, offset:Float)
     {
         this.bpm = bpm;
         this.startBeat = startBeat;

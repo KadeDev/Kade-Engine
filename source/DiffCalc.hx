@@ -7,7 +7,7 @@ class SmallNote // basically Note.hx but small as fuck
     public var strumTime:Float;
     public var noteData:Int;
 
-    public function new(strum,data)
+    public function new(strum, data)
     {
         strumTime = strum;
         noteData = data;
@@ -39,14 +39,14 @@ class DiffCalc
             {
                 var gottaHitNote:Bool = i.mustHitSection;
 
-				if (ii[1] >= 3 && gottaHitNote)
-					cleanedNotes.push(new SmallNote(ii[0] / FreeplayState.rate,Math.floor(Math.abs(ii[1]))));
+				        if (ii[1] >= 3 && gottaHitNote)
+					        cleanedNotes.push(new SmallNote(ii[0] / FreeplayState.rate, Math.floor(Math.abs(ii[1]))));
                 if (ii[1] <= 4 && !gottaHitNote) 
-                    cleanedNotes.push(new SmallNote(ii[0] / FreeplayState.rate,Math.floor(Math.abs(ii[1]))));
+                    cleanedNotes.push(new SmallNote(ii[0] / FreeplayState.rate, Math.floor(Math.abs(ii[1]))));
             }
         }
 
-        trace('calcuilafjwaf ' + cleanedNotes.length);
+        trace(cleanedNotes.length + ' - playable notes');
 
         var handOne:Array<SmallNote> = [];
         var handTwo:Array<SmallNote> = [];
@@ -188,13 +188,13 @@ class DiffCalc
                 }
             }
 
-            var one = fingieCalc(fuckYouOne,leftHandCol);
-            var two = fingieCalc(fuckYouTwo,leftMHandCol);
+            var one = fingieCalc(fuckYouOne, leftHandCol);
+            var two = fingieCalc(fuckYouTwo, leftMHandCol);
 
             
             var bigFuck = ((((one > two ? one : two) * 8) + (hand_npsOne[i] / scale) * 5) / 13) * scale;
 
-            //trace(bigFuck + " - hand one [" + i + "]");
+            //trace(bigFuck + ' - hand one [' + i + ']');
 
             
             hand_diffOne.push(bigFuck);
@@ -218,20 +218,20 @@ class DiffCalc
                 }
             }
 
-            var one = fingieCalc(fuckYouOne,rightMHandCol);
-            var two = fingieCalc(fuckYouTwo,rightHandCol);
+            var one = fingieCalc(fuckYouOne, rightMHandCol);
+            var two = fingieCalc(fuckYouTwo, rightHandCol);
 
             var bigFuck = ((((one > two ? one : two) * 8) + (hand_npsTwo[i] / scale) * 5) / 13) * scale;
 
             hand_diffTwo.push(bigFuck);
 
-            // trace(bigFuck + " - hand two [" + i + "]");
+            // trace(bigFuck + ' - hand two [' + i + ']');
         }
 
         for (i in 0...4)
         {
-            smoothBrain(hand_npsOne,0);
-            smoothBrain(hand_npsTwo,0);
+            smoothBrain(hand_npsOne, 0);
+            smoothBrain(hand_npsTwo, 0);
 
             smoothBrainTwo(hand_diffOne);
             smoothBrainTwo(hand_diffTwo);
@@ -273,10 +273,10 @@ class DiffCalc
         lastDiffHandTwo = hand_diffTwo;
 
 
-        return HelperFunctions.truncateFloat(chisel(accuracy,hand_diffOne,hand_diffTwo,point_npsOne,point_npsTwo,maxPoints),2);
+        return HelperFunctions.truncateFloat(chisel(accuracy, hand_diffOne, hand_diffTwo, point_npsOne, point_npsTwo, maxPoints), 2);
     }
 
-    public static function chisel(scoreGoal:Float,diffOne:Array<Float>,diffTwo:Array<Float>,pointsOne:Array<Float>,pointsTwo:Array<Float>,maxPoints:Float)
+    public static function chisel(scoreGoal:Float, diffOne:Array<Float>, diffTwo:Array<Float>, pointsOne:Array<Float>, pointsTwo:Array<Float>, maxPoints:Float)
     {
         var lowerBound:Float = 0;
         var upperBound:Float = 100;
@@ -284,7 +284,7 @@ class DiffCalc
         while(upperBound - lowerBound > 0.01)
         {
             var average:Float = (upperBound + lowerBound) / 2;
-            var amtOfPoints:Float = calcuate(average,diffOne,pointsOne) + calcuate(average,diffTwo,pointsTwo);
+            var amtOfPoints:Float = calcuate(average, diffOne, pointsOne) + calcuate(average, diffTwo, pointsTwo);
             if (amtOfPoints / maxPoints < scoreGoal)
                 lowerBound = average;
             else
@@ -294,7 +294,7 @@ class DiffCalc
         return upperBound;
     }
 
-    public static function calcuate(midPoint:Float,diff:Array<Float>,points:Array<Float>)
+    public static function calcuate(midPoint:Float, diff:Array<Float>, points:Array<Float>)
     {
         var output:Float = 0;
         
@@ -304,7 +304,7 @@ class DiffCalc
             if (midPoint > res)
                 output += points[i];
             else
-                output += points[i] * Math.pow(midPoint / res,1.2);
+                output += points[i] * Math.pow(midPoint / res, 1.2);
         }
         return output;
     }
@@ -322,7 +322,7 @@ class DiffCalc
         var sum:Float = 0;
         if (floats.length == 0)
             return 0;
-        var startIndex = findStupid(floats[0].strumTime,columArray);
+        var startIndex = findStupid(floats[0].strumTime, columArray);
         if (startIndex == -1)
             return 0;
         for(i in floats) 

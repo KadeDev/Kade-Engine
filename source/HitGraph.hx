@@ -55,7 +55,7 @@ class HitGraph extends Sprite
 		_width = Width;
 		_height = Height;
 
-		var bm = new BitmapData(Width,Height);
+		var bm = new BitmapData(Width, Height);
 		bm.draw(this);
 		bitmap = new Bitmap(bm);
 
@@ -64,11 +64,11 @@ class HitGraph extends Sprite
 
 		ts = Math.floor((PlayState.rep.replay.sf / 60) * 1000) / 166;
 
-		var early = createTextField(10,10,FlxColor.WHITE,12);
-		var late = createTextField(10,_height - 20,FlxColor.WHITE,12);
+		var early = createTextField(10, 10, FlxColor.WHITE, 12);
+		var late = createTextField(10, _height - 20, FlxColor.WHITE, 12);
 
-		early.text = "Early (" + -166 * ts + "ms)";
-		late.text = "Late (" + 166 * ts + "ms)";
+		early.text = 'Early (' + -166 * ts + 'ms)';
+		late.text = 'Late (' + 166 * ts + 'ms)';
 
 		addChild(early);
 		addChild(late);
@@ -117,7 +117,7 @@ class HitGraph extends Sprite
 		tf.antiAliasType = AntiAliasType.NORMAL;
 		tf.gridFitType = GridFitType.PIXEL;
 		#end
-		tf.defaultTextFormat = new TextFormat("assets/fonts/vcr.ttf", Size, Color.to24Bit());
+		tf.defaultTextFormat = new TextFormat('assets/fonts/vcr.ttf', Size, Color.to24Bit());
 		tf.alpha = Color.alphaFloat;
 		tf.autoSize = TextFieldAutoSize.LEFT;
 		return tf;
@@ -144,7 +144,7 @@ class HitGraph extends Sprite
 
 		var graphX = _axis.x + 1;
 
-		gfx.drawRect(graphX,pointY, _width,1);
+		gfx.drawRect(graphX, pointY, _width, 1);
 
 		gfx.lineStyle(1, graphColor, 1);
 	}
@@ -210,7 +210,7 @@ class HitGraph extends Sprite
 					continue;
 
 				var pointY = (-value * _height - 1) + _height;
-				gfx.drawRect(graphX + fitX(ana.hitTime), pointY,2,2);
+				gfx.drawRect(graphX + fitX(ana.hitTime), pointY, 2, 2);
 				gfx.endFill();
 			}
 		}
@@ -222,15 +222,15 @@ class HitGraph extends Sprite
 
 			switch(judge)
 			{
-				case "sick":
+				case 'sick':
 					gfx.beginFill(0x00FFFF);
-				case "good":
+				case 'good':
 					gfx.beginFill(0x00FF00);
-				case "bad":
+				case 'bad':
 					gfx.beginFill(0xFF0000);
-				case "shit":
+				case 'shit':
 					gfx.beginFill(0x8b0000);
-				case "miss":
+				case 'miss':
 					gfx.beginFill(0x580000);
 				default:
 					gfx.beginFill(0xFFFFFF);
@@ -239,13 +239,13 @@ class HitGraph extends Sprite
 
 			/*if (i == 0)
 				gfx.moveTo(graphX, _axis.y + pointY);*/
-			gfx.drawRect(fitX(history[i][2]), pointY,4,4);
+			gfx.drawRect(fitX(history[i][2]), pointY, 4, 4);
 
 			gfx.endFill();
 		}
 
 
-		var bm = new BitmapData(_width,_height);
+		var bm = new BitmapData(_width, _height);
 		bm.draw(this);
 		bitmap = new Bitmap(bm);
 	}
@@ -257,7 +257,7 @@ class HitGraph extends Sprite
 	
 	public function addToHistory(diff:Float, judge:String, time:Float)
 	{
-		history.push([diff,judge, time]);
+		history.push([diff, judge, time]);
 	}
 
 	public function update():Void

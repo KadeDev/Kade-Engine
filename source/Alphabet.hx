@@ -24,10 +24,10 @@ class Alphabet extends FlxSpriteGroup
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
 
-	public var text:String = "";
+	public var text:String = '';
 
-	var _finalText:String = "";
-	var _curText:String = "";
+	var _finalText:String = '';
+	var _curText:String = '';
 
 	public var widthOfWords:Float = FlxG.width;
 
@@ -47,13 +47,13 @@ class Alphabet extends FlxSpriteGroup
 
 	var pastX:Float = 0;
 	var pastY:Float  = 0;
-
+	
 	// ThatGuy: Variables here to be used later
 	var xScale:Float;
 	var yScale:Float;
 
 	// ThatGuy: Added 2 more variables, xScale and yScale for resizing text
-	public function new(x:Float, y:Float, text:String = "", ?bold:Bool = false, typed:Bool = false, shouldMove:Bool = false, xScale:Float = 1, yScale:Float = 1)
+	public function new(x:Float, y:Float, text:String = '', ?bold:Bool = false, typed:Bool = false, shouldMove:Bool = false, xScale:Float = 1, yScale:Float = 1)
 	{
 		pastX = x;
 		pastY = y;
@@ -68,7 +68,7 @@ class Alphabet extends FlxSpriteGroup
 		this.text = text;
 		isBold = bold;
 
-		if (text != "")
+		if (text != '')
 		{
 			if (typed)
 			{
@@ -110,11 +110,11 @@ class Alphabet extends FlxSpriteGroup
 		var xPos:Float = 0;
 		for (character in splitWords)
 		{
-			// if (character.fastCodeAt() == " ")
+			// if (character.fastCodeAt() == ' ')
 			// {
 			// }
 
-			if (character == " " || character == "-")
+			if (character == ' ' || character == '-')
 			{
 				lastWasSpace = true;
 			}
@@ -162,7 +162,7 @@ class Alphabet extends FlxSpriteGroup
 
 	function doSplitWords():Void
 	{
-		splitWords = _finalText.split("");
+		splitWords = _finalText.split('');
 	}
 
 	public var personTalking:String = 'gf';
@@ -182,8 +182,8 @@ class Alphabet extends FlxSpriteGroup
 
 		new FlxTimer().start(0.05, function(tmr:FlxTimer)
 		{
-			// trace(_finalText.fastCodeAt(loopNum) + " " + _finalText.charAt(loopNum));
-			if (_finalText.fastCodeAt(loopNum) == "\n".code)
+			// trace(_finalText.fastCodeAt(loopNum) + ' ' + _finalText.charAt(loopNum));
+			if (_finalText.fastCodeAt(loopNum) == '\n'.code)
 			{
 				yMulti += 1;
 				xPosResetted = true;
@@ -191,12 +191,12 @@ class Alphabet extends FlxSpriteGroup
 				curRow += 1;
 			}
 
-			if (splitWords[loopNum] == " ")
+			if (splitWords[loopNum] == ' ')
 			{
 				lastWasSpace = true;
 			}
 
-			#if (haxe >= "4.0.0")
+			#if (haxe >= '4.0.0')
 			var isNumber:Bool = AlphaCharacter.numbers.contains(splitWords[loopNum]);
 			var isSymbol:Bool = AlphaCharacter.symbols.contains(splitWords[loopNum]);
 			#else
@@ -225,7 +225,7 @@ class Alphabet extends FlxSpriteGroup
 					xPos += 20;
 					lastWasSpace = false;
 				}
-				// trace(_finalText.fastCodeAt(loopNum) + " " + _finalText.charAt(loopNum));
+				// trace(_finalText.fastCodeAt(loopNum) + ' ' + _finalText.charAt(loopNum));
 
 				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0);
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti);
@@ -255,7 +255,7 @@ class Alphabet extends FlxSpriteGroup
 
 				if (FlxG.random.bool(40))
 				{
-					var daSound:String = "GF_";
+					var daSound:String = 'GF_';
 					FlxG.sound.play(Paths.soundRandom(daSound, 1, 4));
 				}
 
@@ -316,11 +316,11 @@ class Alphabet extends FlxSpriteGroup
 
 class AlphaCharacter extends FlxSprite
 {
-	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
+	public static var alphabet:String = 'abcdefghijklmnopqrstuvwxyz';
 
-	public static var numbers:String = "1234567890";
+	public static var numbers:String = '1234567890';
 
-	public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!? ";
+	public static var symbols:String = '|~#$$%()*+-:;<=>@[]^_.,\'!? '; // double $ cause otherwise it would be interpreted as an interpolation
 
 	public var row:Int = 0;
 
@@ -337,20 +337,20 @@ class AlphaCharacter extends FlxSprite
 
 	public function createBold(letter:String)
 	{
-		animation.addByPrefix(letter, letter.toUpperCase() + " bold", 24);
+		animation.addByPrefix(letter, letter.toUpperCase() + ' bold', 24);
 		animation.play(letter);
 		updateHitbox();
 	}
 
 	public function createLetter(letter:String):Void
 	{
-		var letterCase:String = "lowercase";
+		var letterCase:String = 'lowercase';
 		if (letter.toLowerCase() != letter)
 		{
 			letterCase = 'capital';
 		}
 
-		animation.addByPrefix(letter, letter + " " + letterCase, 24);
+		animation.addByPrefix(letter, letter + ' ' + letterCase, 24);
 		animation.play(letter);
 		updateHitbox();
 
@@ -376,42 +376,42 @@ class AlphaCharacter extends FlxSprite
 				animation.addByPrefix(letter, 'period', 24);
 				animation.play(letter);
 				y += 50;
-			case "'":
+			case '\'':
 				animation.addByPrefix(letter, 'apostraphie', 24);
 				animation.play(letter);
 				y -= 0;
-			case "?":
+			case '?':
 				animation.addByPrefix(letter, 'question mark', 24);
 				animation.play(letter);
-			case "!":
+			case '!':
 				animation.addByPrefix(letter, 'exclamation point', 24);
 				animation.play(letter);
 			case '_':
 				animation.addByPrefix(letter, '_', 24);
 				animation.play(letter);
 				y += 50;
-			case "#":
+			case '#':
 				animation.addByPrefix(letter, '#', 24);
 				animation.play(letter);
-			case "$":
-				animation.addByPrefix(letter, '$', 24);
+			case '$$':                                           // double $ cause otherwise it would be interpreted as an interpolation
+				animation.addByPrefix(letter, '$$', 24);
 				animation.play(letter);
-			case "%":
+			case '%':
 				animation.addByPrefix(letter, '%', 24);
 				animation.play(letter);
-			case "&":
+			case '&':
 				animation.addByPrefix(letter, '&', 24);
 				animation.play(letter);
-			case "(":
+			case '(':
 				animation.addByPrefix(letter, '(', 24);
 				animation.play(letter);
-			case ")":
+			case ')':
 				animation.addByPrefix(letter, ')', 24);
 				animation.play(letter);
-			case "+":
+			case '+':
 				animation.addByPrefix(letter, '+', 24);
 				animation.play(letter);
-			case "-":
+			case '-':
 				animation.addByPrefix(letter, '-', 24);
 				animation.play(letter);
 			case '"':
@@ -421,7 +421,7 @@ class AlphaCharacter extends FlxSprite
 			case '@':
 				animation.addByPrefix(letter, '@', 24);
 				animation.play(letter);
-			case "^":
+			case '^':
 				animation.addByPrefix(letter, '^', 24);
 				animation.play(letter);
 				y -= 0;

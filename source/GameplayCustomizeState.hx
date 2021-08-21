@@ -31,8 +31,8 @@ class GameplayCustomizeState extends MusicBeatState
     var text:FlxText;
     var blackBorder:FlxSprite;
 
-    var bf:Boyfriend;
-    var dad:Character;
+    var player:Player;
+    var opponent:Character;
     var gf:Character;
 
     var strumLine:FlxSprite;
@@ -43,19 +43,19 @@ class GameplayCustomizeState extends MusicBeatState
     public override function create() {
         #if windows
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Customizing Gameplay Modules", null);
+		DiscordClient.changePresence('Customizing Gameplay Modules', null);
 		#end
 
-        sick = new FlxSprite().loadGraphic(Paths.image('sick','shared'));
+        sick = new FlxSprite().loadGraphic(Paths.image('sick', 'shared'));
         sick.antialiasing = FlxG.save.data.antialiasing;
         sick.scrollFactor.set();
-        background = new FlxSprite(-1000, -200).loadGraphic(Paths.image('stageback','shared'));
-        curt = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains','shared'));
-        front = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront','shared'));
+        background = new FlxSprite(-1000, -200).loadGraphic(Paths.image('stageback', 'shared'));
+        curt = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains', 'shared'));
+        front = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront', 'shared'));
         background.antialiasing = FlxG.save.data.antialiasing;
         curt.antialiasing = FlxG.save.data.antialiasing;
         front.antialiasing = FlxG.save.data.antialiasing;
-
+    
 		//Conductor.changeBPM(102);
 		persistentUpdate = true;
 
@@ -65,32 +65,31 @@ class GameplayCustomizeState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
         FlxG.cameras.add(camHUD);
 
-        camHUD.zoom = FlxG.save.data.zoom;
+    camHUD.zoom = FlxG.save.data.zoom;
+    background.scrollFactor.set(0.9, 0.9);
+    curt.scrollFactor.set(0.9, 0.9);
+    front.scrollFactor.set(0.9, 0.9);
 
-        background.scrollFactor.set(0.9,0.9);
-        curt.scrollFactor.set(0.9,0.9);
-        front.scrollFactor.set(0.9,0.9);
-
-        add(background);
-        add(front);
-        add(curt);
+    add(background);
+    add(front);
+    add(curt);
 
 		var camFollow = new FlxObject(0, 0, 1, 1);
 
-		dad = new Character(100, 100, 'dad');
+		opponent = new Character(100, 100, 'dad');
 
-        bf = new Boyfriend(770, 450, 'bf');
+        player = new Player(770, 450, 'bf');
 
         gf = new Character(400, 130, 'gf');
 		gf.scrollFactor.set(0.95, 0.95);
 
-		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x + 400, dad.getGraphicMidpoint().y);
+		var camPos:FlxPoint = new FlxPoint(opponent.getGraphicMidpoint().x + 400, opponent.getGraphicMidpoint().y);
 
 		camFollow.setPosition(camPos.x, camPos.y);
 
         add(gf);
-        add(bf);
-        add(dad);
+        add(player);
+        add(opponent);
 
         add(sick);
 
@@ -115,18 +114,18 @@ class GameplayCustomizeState extends MusicBeatState
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 
-        sick.cameras = [camHUD];
-        strumLine.cameras = [camHUD];
-        playerStrums.cameras = [camHUD];
+    sick.cameras = [camHUD];
+    strumLine.cameras = [camHUD];
+    playerStrums.cameras = [camHUD];
         
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-        text = new FlxText(5, FlxG.height + 40, 0, "Click and drag around gameplay elements to customize their positions. Press R to reset. Q/E to change zoom. Press Escape to go back.", 12);
+        text = new FlxText(5, FlxG.height + 40, 0, 'Click and drag around gameplay elements to customize their positions. Press R to reset. Q/E to change zoom. Press Escape to go back.', 12);
 		text.scrollFactor.set();
-		text.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		text.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         
-        blackBorder = new FlxSprite(-30,FlxG.height + 40).makeGraphic((Std.int(text.width + 900)),Std.int(text.height + 600),FlxColor.BLACK);
+    blackBorder = new FlxSprite(-30, FlxG.height + 40).makeGraphic((Std.int(text.width + 900)), Std.int(text.height + 600), FlxColor.BLACK);
 		blackBorder.alpha = 0.5;
 
         background.cameras = [camHUD];
@@ -139,8 +138,8 @@ class GameplayCustomizeState extends MusicBeatState
 
 		add(text);
 
-		FlxTween.tween(text,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
-		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
+		FlxTween.tween(text, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
+		FlxTween.tween(blackBorder, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
 
         if (!FlxG.save.data.changedHit)
         {
@@ -150,8 +149,7 @@ class GameplayCustomizeState extends MusicBeatState
 
         sick.x = FlxG.save.data.changedHitX;
         sick.y = FlxG.save.data.changedHitY;
-
-
+	
         FlxG.mouse.visible = true;
 
     }
@@ -226,8 +224,8 @@ class GameplayCustomizeState extends MusicBeatState
     {
         super.beatHit();
 
-        bf.playAnim('idle', true);
-        dad.dance(true);
+        player.playAnim('idle', true);
+        opponent.dance(true);
         gf.dance();
 
         FlxG.camera.zoom += 0.015;

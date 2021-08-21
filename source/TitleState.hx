@@ -54,17 +54,17 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		#if polymod
-		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		polymod.Polymod.init({modRoot: 'mods', dirs: ['introMod']});
 		#end
 		
 		#if sys
-		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
-			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
+		if (!sys.FileSystem.exists(Sys.getCwd() + '/assets/replays'))
+			sys.FileSystem.createDirectory(Sys.getCwd() + '/assets/replays');
 		#end
 
 		@:privateAccess
 		{
-			trace("Loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets (DEFAULT)");
+			trace('Loaded ' + openfl.Assets.getLibrary('default').assetsLoaded + ' assets (DEFAULT)');
 		}
 		
 		#if !cpp
@@ -145,17 +145,19 @@ class TitleState extends MusicBeatState
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], '', 24, false);
+		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], '', 24, false);
 		gfDance.antialiasing = FlxG.save.data.antialiasing;
+
 		add(gfDance);
 		add(logoBl);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
-		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
-		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+		titleText.animation.addByPrefix('idle', 'Press Enter to Begin', 24);
+		titleText.animation.addByPrefix('press', 'ENTER PRESSED', 24);
 		titleText.antialiasing = FlxG.save.data.antialiasing;
+
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
@@ -176,7 +178,7 @@ class TitleState extends MusicBeatState
 		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		credGroup.add(blackScreen);
 
-		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
+		credTextShit = new Alphabet(0, 0, 'ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er', true);
 		credTextShit.screenCenter();
 
 		// credTextShit.alignment = CENTER;
@@ -294,7 +296,7 @@ class TitleState extends MusicBeatState
 			{
 				// Get current version of Kade Engine
 				
-				var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
+				var http = new haxe.Http('https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe');
 				var returnedData:Array<String> = [];
 				
 				http.onData = function (data:String)
@@ -425,7 +427,7 @@ class TitleState extends MusicBeatState
 			case 12:
 				deleteCoolText();
 			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
+			// credTextShit.text = 'Friday';
 			// credTextShit.screenCenter();
 			case 13:
 				addMoreText('Friday');
@@ -452,7 +454,7 @@ class TitleState extends MusicBeatState
 			FlxG.camera.flash(FlxColor.WHITE, 4);
 			remove(credGroup);
 
-			FlxTween.tween(logoBl,{y: -100}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(logoBl, {y: -100}, 1.4, {ease: FlxEase.expoInOut});
 
 			logoBl.angle = -4;
 

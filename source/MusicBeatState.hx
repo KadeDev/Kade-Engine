@@ -100,7 +100,7 @@ class MusicBeatState extends FlxUIState
 			{
 				var data = TimingStruct.getTimingAtTimestamp(Conductor.songPosition);
 
-				FlxG.watch.addQuick("Current Conductor Timing Seg", data.bpm);
+				FlxG.watch.addQuick('Current Conductor Timing Seg', data.bpm);
 
 				Conductor.crochet = ((60 / data.bpm) * 1000);
 
@@ -122,7 +122,7 @@ class MusicBeatState extends FlxUIState
 					}
 					else if (ste < curStep)
 					{
-						trace("reset steps for some reason?? at " + Conductor.songPosition);
+						trace('reset steps for some reason?? at ' + Conductor.songPosition);
 						//Song reset?
 						curStep = ste;
 						updateBeat();
@@ -148,7 +148,7 @@ class MusicBeatState extends FlxUIState
 					else if (nextStep < curStep)
 					{
 						//Song reset?
-						trace("(no bpm change) reset steps for some reason?? at " + Conductor.songPosition);
+						trace('(no bpm change) reset steps for some reason?? at ' + Conductor.songPosition);
 						curStep = nextStep;
 						updateBeat();
 						stepHit();
@@ -214,7 +214,7 @@ class MusicBeatState extends FlxUIState
 	public function fancyOpenURL(schmancy:String)
 	{
 		#if linux
-		Sys.command('/usr/bin/xdg-open', [schmancy, "&"]);
+		Sys.command('/usr/bin/xdg-open', [schmancy, '&']);
 		#else
 		FlxG.openURL(schmancy);
 		#end

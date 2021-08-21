@@ -33,9 +33,9 @@ class SMFile
 
 
             // Gather header data
-            var headerData = "";
+            var headerData = '';
             var inc = 0;
-            while(!StringTools.contains(data[inc + 1],"//"))
+            while(!StringTools.contains(data[inc + 1], '//'))
             {
                 headerData += data[inc];
                 inc++;
@@ -44,29 +44,29 @@ class SMFile
 
             header = new SMHeader(headerData.split(';'));
 
-            if (_fileData.toString().split("#NOTES").length > 2)
+            if (_fileData.toString().split('#NOTES').length > 2)
             {
-                Application.current.window.alert("The chart must only have 1 difficulty, this one has " + (_fileData.toString().split("#NOTES").length - 1),"SM File loading (" + header.TITLE + ")");
+                Application.current.window.alert('The chart must only have 1 difficulty, this one has ' + (_fileData.toString().split('#NOTES').length - 1), 'SM File loading (' + header.TITLE + ')');
                 isValid = false;
                 return;
             }
 
-            if (!StringTools.contains(header.MUSIC.toLowerCase(),"ogg"))
+            if (!StringTools.contains(header.MUSIC.toLowerCase(), 'ogg'))
             {
-                Application.current.window.alert("The music MUST be an OGG File, make sure the sm file has the right music property.","SM File loading (" + header.TITLE + ")");
+                Application.current.window.alert('The music MUST be an OGG File, make sure the sm file has the right music property.', 'SM File loading (' + header.TITLE + ')');
                 isValid = false;
                 return;
             }
 
             // check if this is a valid file, it should be a dance double file.
             inc += 3; // skip three lines down
-            if (!StringTools.contains(data[inc],"dance-double:") && !StringTools.contains(data[inc],"dance-single"))
+            if (!StringTools.contains(data[inc], 'dance-double:') && !StringTools.contains(data[inc], 'dance-single'))
             {
-                Application.current.window.alert("The file you are loading is neither a Dance Double chart or a Dance Single chart","SM File loading (" + header.TITLE + ")");
+                Application.current.window.alert('The file you are loading is neither a Dance Double chart or a Dance Single chart', 'SM File loading (' + header.TITLE + ')');
                 isValid = false;
                 return;
             }
-            if (StringTools.contains(data[inc],"dance-double:"))
+            if (StringTools.contains(data[inc], 'dance-double:'))
                 isDouble = true;
             if (isDouble)
                 trace('this is dance double');
@@ -75,29 +75,27 @@ class SMFile
 
             measures = [];
 
-
-
-            var measure = "";
+            var measure = '';
 
             trace(data[inc - 1]);
 
             for (ii in inc...data.length)
             {
                 var i = data[ii];
-                if (StringTools.contains(i,",") || StringTools.contains(i,";"))
+                if (StringTools.contains(i, ',') || StringTools.contains(i, ';'))
                 {
                     measures.push(new SMMeasure(measure.split('\n')));
                     //trace(measures.length);
-                    measure = "";
+                    measure = '';
                     continue;
                 }
-                measure += i + "\n";
+                measure += i + '\n';
             }
-            trace(measures.length + " Measures");
+            trace(measures.length + ' Measures');
         }
         catch(e:Exception)
         {
-            Application.current.window.alert("Failure to load file.\n" + e,"SM File loading");
+            Application.current.window.alert('Failure to load file.\n' + e, 'SM File loading');
         }
     }
     
@@ -109,16 +107,16 @@ class SMFile
 
         
         if (isDouble) // held storage lanes
-            heldNotes = [[],[],[],[],[],[],[],[]];
+            heldNotes = [[], [], [], [], [], [], [], []];
         else
-            heldNotes = [[],[],[],[]];
+            heldNotes = [[], [], [], []];
 
 
         // variables
 
         var measureIndex = 0;
         var currentBeat:Float = 0;
-        var output = "";
+        var output = '';
 
         // init a fnf song
 
@@ -135,7 +133,7 @@ class SMFile
             stage: 'stage',
             speed: 1.0,
             validScore: false,
-            chartVersion: "",
+            chartVersion: '',
         };
 
         // lets check if the sm loading was valid
@@ -143,17 +141,17 @@ class SMFile
         if (!isValid)
         {
             var json = {
-                "song": song
+                'song': song
             };
 
-            var data:String = Json.stringify(json,null," ");
-            File.saveContent(saveTo,data);
+            var data:String = Json.stringify(json, null, ' ');
+            File.saveContent(saveTo, data);
             return data;
         }
 
         // aight time to convert da measures
 
-        trace("Converting measures");
+        trace('Converting measures');
 
         for(measure in measures)
         {
@@ -223,14 +221,14 @@ class SMFile
 
                 var rowTime = timeInSec * 1000;
 
-                //output += " - Row " + noteRow + " - Time: " + rowTime + " (" + timeInSec + ") - Beat: " + currentBeat + " - Current BPM: " + header.getBPM(currentBeat) + "\n";
+                //output += ' - Row ' + noteRow + ' - Time: ' + rowTime + ' (' + timeInSec + ') - Beat: ' + currentBeat + ' - Current BPM: ' + header.getBPM(currentBeat) + '\n';
 
                 var index = 0;
 
                 for(i in notes)
                 {
                     // if its a mine lets skip (maybe add mines in the future??)
-                    if (i == "M")
+                    if (i == 'M')
                     {
                         index++;
                         continue;
@@ -245,20 +243,19 @@ class SMFile
                     switch(numba)
                     {
                         case 1: // normal
-                            section.sectionNotes.push([rowTime,lane ,0,0, currentBeat]);
+                            section.sectionNotes.push([rowTime, lane , 0, 0, currentBeat]);
                         case 2: // held head
-                            heldNotes[lane] = [rowTime,lane,0,0, currentBeat];
+                            heldNotes[lane] = [rowTime, lane, 0, 0, currentBeat];
                         case 3: // held tail
                             var data = heldNotes[lane];
                             var timeDiff = rowTime - data[0];
-                            section.sectionNotes.push([data[0],lane,timeDiff,0, data[4]]);
+                            section.sectionNotes.push([data[0], lane, timeDiff, 0, data[4]]);
                             heldNotes[index] = [];
                         case 4: // roll head
-                            heldNotes[lane] = [rowTime,lane,0,0, currentBeat];
+                            heldNotes[lane] = [rowTime, lane, 0, 0, currentBeat];
                     }
                     index++;
                 }
-
 
                 rowIndex++;
             }
@@ -267,7 +264,7 @@ class SMFile
 
             song.notes.push(section);
 
-            //output += ",\n";
+            //output += ',\n';
 
             measureIndex++;
         }
@@ -290,7 +287,7 @@ class SMFile
 
 			}
 
-        //File.saveContent("fuac" + header.TITLE,output);
+        //File.saveContent('fuac' + header.TITLE, output);
 
         if (header.changeEvents.length != 0)
         {
@@ -331,11 +328,11 @@ class SMFile
         song.chartVersion = Song.latestChart;
 
 		var json = {
-			"song": song
+			'song': song
 		};
 
-		var data:String = Json.stringify(json,null," ");
-        File.saveContent(saveTo,data);
+		var data:String = Json.stringify(json, null, ' ');
+        File.saveContent(saveTo, data);
         return data;
     }
 }
