@@ -38,6 +38,7 @@ class OptionsMenu extends MusicBeatState
 			new ResetButtonOption("Toggle pressing R to gameover."),
 			new InstantRespawn("Toggle if you instantly respawn after dying."),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
+			new SkipCutsceneOption("Toggle back keys being used for cutscene skipping."),
 			new CustomizeGameplay("Drag and drop gameplay modules to your prefered positions!")
 		]),
 		new OptionCategory("Appearance", [
